@@ -99,14 +99,44 @@ int main(void)
   MX_USART3_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  int err,a;
-  printf("START...\n");
-  err = imu_init();
-  printf("imuinit err: %d \n\r",err);
-  err=imu_read();
-  printf("imuread err: %d \n\r",err);
-a=imu.acc.x*1000;
-printf("il valore di x e': %d\n\r",a);
+  int err=-1,x,y,z;
+
+printf("START...\n\r");
+
+  while (err!=0)   {
+	  err=imu_init();
+  if (err==0)   {
+	  printf("Inizializzazione IMU ok...\n\r");
+	  else err = imu_init();
+  }
+  }
+
+  /*uint32_t tick=HAL_GetTick();
+  printf("Il numero di tick e': %d \n\r",tick);*/
+  uint32_t tick=0,last=0;
+  /*while(1)*/for(int i=0;i<3;i++)   {
+	  imu_read();
+     // printf("imuread err: %d \n\r",err);
+      x=imu.acc.x*1000;
+      y=imu.acc.y*1000;
+      z=imu.acc.z*1000;
+
+      printf("L'accelerazione lungo x e': %d\n\r",x);
+      printf("L'accelerazione lungo y e': %d\n\r",y);
+      printf("L'accelerazione lungo z e': %d\n\r",z);
+
+
+      do   {
+    	  tick=HAL_GetTick();
+      }
+      while(tick-last<1);
+      last=tick;
+
+      printf("%d   %d\n\r",tick,last);
+
+    //  HAL_Delay(1);
+
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
