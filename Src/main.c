@@ -99,7 +99,8 @@ int main(void)
 	MX_USART3_UART_Init();
 	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
-	int err=-1,x,y,z;
+	int err=-1;
+	float ax,ay,az,gx,gy,gz;
 
 	printf("START...\n\r");
 
@@ -117,14 +118,20 @@ int main(void)
 	/*while(1)*/for(int i=0;i<3;i++)   {
 		imu_read();
 		// printf("imuread err: %d \n\r",err);
-		x=imu.acc.x*1000;
-		y=imu.acc.y*1000;
-		z=imu.acc.z*1000;
+		ax=imu.acc.x*1000;
+		ay=imu.acc.y*1000;
+		az=imu.acc.z*1000;
+		gx=imu.gyr.x*1000;
+		gy=imu.gyr.y*1000;
+		gz=imu.gyr.z*1000;
 
-		printf("L'accelerazione lungo x e': %d\n\r",x);
-		printf("L'accelerazione lungo y e': %d\n\r",y);
-		printf("L'accelerazione lungo z e': %d\n\r",z);
+		printf("L'accelerazione lungo x e': %f\n\r",ax);
+		printf("L'accelerazione lungo y e': %f\n\r",ay);
+		printf("L'accelerazione lungo z e': %f\n\r",az);
 
+		printf("Il rollio     (roll)  e': %f \n\r",gx);
+		printf("Il beccheggio (pitch) e': %f \n\r",gy);
+		printf("L' imbardata  (yaw)   e': %f \n\r",gz);
 
 		do   {
 			tick=HAL_GetTick();
